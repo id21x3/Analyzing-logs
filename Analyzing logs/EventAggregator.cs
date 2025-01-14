@@ -14,7 +14,7 @@ namespace Analyzing_logs
         {
             if (!_events.TryGetValue(eventName, out EventStats? value))
             {
-                value = new EventStats { EventName = eventName };
+                value = new EventStats(eventName);
                 _events[eventName] = value;
             }
 

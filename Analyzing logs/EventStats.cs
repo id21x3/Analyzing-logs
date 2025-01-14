@@ -8,11 +8,15 @@ namespace Analyzing_logs
 {
     public class EventStats
     {
-        public string EventName { get; set; }
+        public string EventName { get; private set; }
         public int MinTime { get; private set; } = int.MaxValue;
         public int MaxTime { get; private set; } = int.MinValue;
         public int TotalTime { get; private set; } = 0;
         public int Count { get; private set; } = 0;
+        public EventStats(string eventName)
+        {
+            EventName = eventName;
+        }
 
         public void AddTime(int time)
         {
@@ -27,4 +31,5 @@ namespace Analyzing_logs
             return Count == 0 ? 0 : (double)TotalTime / Count;
         }
     }
+
 }
