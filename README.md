@@ -32,6 +32,7 @@ Example of a log file used by the program:
 
 ```
 [Event] Processing MoveBroiEvent
+...
 [Performance] MoveBroiEvent with Tid 12 has been processed in 100 ms
 [Performance] MoveCroiEvent with Tid 14 has been processed in 300 ms
 [Performance] MoveBroiEvent with Tid 13 has been processed in 200 ms
