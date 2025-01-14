@@ -15,14 +15,16 @@ namespace Analyzing_logs
 
             try
             {
-                // Parse
                 var events = logParser.ParseLogFile(logFilePath);
 
-                // Aggregate
                 foreach (var (eventName, time) in events)
                 {
                     eventAggregator.AddEvent(eventName, time);
                 }
+
+                // As I understood the task, there was no requirement to handle unfinished events
+                // (those without [Performance] lines). However, in the future, this could be implemented
+                // to include them in the table with a "Unfinished" marker. This might give a clearer picture :)
 
                 DisplayStatistics(eventAggregator.GetStatistics());
             }

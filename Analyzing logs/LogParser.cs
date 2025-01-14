@@ -14,10 +14,16 @@ namespace Analyzing_logs
             var lines = ReadLogFile(filePath);
             var events = new List<(string EventName, int Time)>();
 
-            var regex = new Regex(@"\[Performance\]\s(?<EventName>\w+)\s.+?(?<Time>\d+)\sms");
+            var regex = new Regex(@"\[Performance\]\s(?<EventName>\w+)\s.+?Tid\s(?<Tid>\d+)\s.+?(?<Time>\d+)\sms");
 
             foreach (var line in lines)
             {
+                if (line.StartsWith("Warning") || !regex.IsMatch(line))
+                {
+                    // Skip invalid or warning lines
+                    continue;
+                }
+
                 var match = regex.Match(line);
                 if (match.Success)
                 {
@@ -30,6 +36,7 @@ namespace Analyzing_logs
 
             return events;
         }
+
 
         private List<string> ReadLogFile(string filePath)
         {
