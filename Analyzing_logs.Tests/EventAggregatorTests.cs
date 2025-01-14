@@ -30,6 +30,17 @@ namespace Analyzing_logs.Tests
             Assert.AreEqual(300, statistics["MoveCroiEvent"].MaxTime);
             Assert.AreEqual(300, statistics["MoveCroiEvent"].GetAverageTime());
         }
+
+        [TestMethod]
+        public void GetStatistics_ShouldReturnDefaultForUnknownEvent()
+        {
+            var aggregator = new EventAggregator();
+
+            var statistics = aggregator.GetStatistics();
+
+            Assert.IsFalse(statistics.ContainsKey("Unknown_MoveBroiEvent"));
+        }
+
     }
 }
 
