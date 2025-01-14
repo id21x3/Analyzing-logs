@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace Analyzing_logs
 {
-    // This class aggregates statistics for all events
     public class EventAggregator
     {
-        private readonly Dictionary<string, EventStats> _events = new();
+        private readonly Dictionary<string, EventStats> _events = [];
 
         public void AddEvent(string eventName, int time)
         {
-            if (!_events.ContainsKey(eventName))
+            if (!_events.TryGetValue(eventName, out EventStats? value))
             {
-                _events[eventName] = new EventStats { EventName = eventName };
+                value = new EventStats { EventName = eventName };
+                _events[eventName] = value;
             }
-            _events[eventName].AddTime(time);
+
+            value.AddTime(time);
         }
 
         public Dictionary<string, EventStats> GetStatistics()

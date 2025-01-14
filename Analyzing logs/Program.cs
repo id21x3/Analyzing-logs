@@ -1,4 +1,7 @@
-﻿namespace Analyzing_logs
+﻿using System;
+using System.Collections.Generic;
+
+namespace Analyzing_logs
 {
     internal class Program
     {
@@ -7,31 +10,25 @@
             Console.WriteLine("Analyzing logs - Application Started");
 
             var logParser = new LogParser();
+            var eventAggregator = new EventAggregator();
             var testLogPath = "testlog.txt";
 
-            // sample log file
-            File.WriteAllLines(testLogPath, new[]
-            {
-                "[Event] Processing MoveBroiEvent",
-                "[Performance] MoveBroiEvent with Tid 12 has been processed in 100 ms",
-                "[Event] Processing MoveBroiEvent",
-                "[Performance] MoveBroiEvent with Tid 13 has been processed in 200 ms",
-                "[Event] Processing MoveCroiEvent",
-                "[Performance] MoveCroiEvent with Tid 14 has been processed in 300 ms",
-                "[Event] Processing MoveCroiEvent",
-                "[Performance] MoveCroiEvent with Tid 15 has been processed in 100 ms"
-            });
-
-
-
-            // Parse
             try
             {
-                var events = logParser.ParseLogFile(testLogPath);
-                Console.WriteLine("Parsed events:");
+                // Parse
+                List<(string EventName, int Time)> events = logParser.ParseLogFile(testLogPath);
+
+                // Aggregate statistics.
                 foreach (var (eventName, time) in events)
                 {
-                    Console.WriteLine($"Event: {eventName}, Time: {time} ms");
+                    eventAggregator.AddEvent(eventName, time);
+                }
+
+                Console.WriteLine("Event Statistics:");
+                Console.WriteLine("Event Name\tMin Time\tMax Time\tAvg Time\tCount");
+                foreach (var (eventName, stats) in eventAggregator.GetStatistics())
+                {
+                    Console.WriteLine($"{stats.EventName}\t{stats.MinTime}\t\t{stats.MaxTime}\t\t{stats.GetAverageTime():F2}\t\t{stats.Count}");
                 }
             }
             catch (Exception ex)
