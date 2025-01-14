@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Analyzing_logs
 {
-    // This class represents statistics for a single event
     public class EventStats
     {
         public string EventName { get; set; }
@@ -15,7 +14,6 @@ namespace Analyzing_logs
         public int TotalTime { get; private set; } = 0;
         public int Count { get; private set; } = 0;
 
-        // Method to update statistics with a new event time
         public void AddTime(int time)
         {
             MinTime = Math.Min(MinTime, time);
