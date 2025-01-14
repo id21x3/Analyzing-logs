@@ -12,7 +12,9 @@ namespace Analyzing_logs
         public List<(string EventName, int Time)> ParseLogFile(string filePath)
         {
             var lines = ReadLogFile(filePath);
+
             var events = new List<(string EventName, int Time)>();
+            events.Capacity = lines.Count;
 
             var regex = new Regex(@"\[Performance\]\s(?<EventName>\w+)\s.+?Tid\s(?<Tid>\d+)\s.+?(?<Time>\d+)\sms");
 
@@ -36,7 +38,6 @@ namespace Analyzing_logs
 
             return events;
         }
-
 
         private List<string> ReadLogFile(string filePath)
         {
