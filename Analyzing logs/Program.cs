@@ -18,23 +18,36 @@ namespace Analyzing_logs
                 // Parse
                 List<(string EventName, int Time)> events = logParser.ParseLogFile(testLogPath);
 
-                // Aggregate statistics.
+                // Aggregate statistics
                 foreach (var (eventName, time) in events)
                 {
                     eventAggregator.AddEvent(eventName, time);
                 }
 
-                Console.WriteLine("Event Statistics:");
-                Console.WriteLine("Event Name\tMin Time\tMax Time\tAvg Time\tCount");
-                foreach (var (eventName, stats) in eventAggregator.GetStatistics())
-                {
-                    Console.WriteLine($"{stats.EventName}\t{stats.MinTime}\t\t{stats.MaxTime}\t\t{stats.GetAverageTime():F2}\t\t{stats.Count}");
-                }
+                DisplayStatistics(eventAggregator.GetStatistics());
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
+        }
+
+        // Displays statistics in a formatted table.
+        private static void DisplayStatistics(Dictionary<string, EventStats> statistics)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Event Statistics:");
+            Console.WriteLine("-------------------------------------------------------------");
+            Console.WriteLine("{0,-20} {1,-10} {2,-10} {3,-10} {4,-10}", "Event Name", "Min Time", "Max Time", "Avg Time", "Count");
+            Console.WriteLine("-------------------------------------------------------------");
+
+            foreach (var stat in statistics.Values)
+            {
+                Console.WriteLine("{0,-20} {1,-10} {2,-10} {3,-10:F2} {4,-10}",
+                    stat.EventName, stat.MinTime, stat.MaxTime, stat.GetAverageTime(), stat.Count);
+            }
+
+            Console.WriteLine("-------------------------------------------------------------");
         }
     }
 }
