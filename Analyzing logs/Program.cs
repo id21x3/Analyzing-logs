@@ -1,2 +1,13 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿namespace Analyzing_logs
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            // Entry point for the application
+            Console.WriteLine("Analyzing logs - Application Started");
+
+            // Future implementation for parsing logs and displaying statistics
+        }
+    }
+}
